@@ -7,7 +7,7 @@
 
 ---
 
-## Description:bulb:
+## Description :bulb:
 
 This repository is dedicated to helping you master the core algorithmic concepts needed for success in technical interviews. It focuses on:
 
@@ -20,7 +20,7 @@ These projects and exercises are designed to improve your problem-solving skills
 
 ---
 
-## Technologies & Tools:computer:
+## Technologies & Tools :computer:
 
 This repository utilizes a variety of powerful tools and technologies to aid in your interview preparation. Here’s what you’ll be using:
 
@@ -67,9 +67,17 @@ Each directory contains:
 
 ---
 
-## Author
+## Author :memo:
 
 - **Refiloe Radebe** - Aspiring software engineer passionate about algorithmic problem-solving and back-end development.
+  
   [<img src="https://img.shields.io/badge/X-000000.svg?&style=plastic&logo=X&logoColor=white"/>](https://x.com/ref_regal)
   [<img src="https://img.shields.io/badge/Linkedin-0A66C2.svg?&style=plastic&logo=linkedin&logoColor=white"/>](https://www.linkedin.com/in/refiloe-radebe/)
   [<img src="https://img.shields.io/badge/GitHub-181717.svg?&style=plastic&logo=github&logoColor=white"/>](https://github.com/kweenDev)
+
+
+
+## :trophy: Acknowledgements
+
+This repository is part of the ALX Africa program's interview preparation. Special thanks to the ALX Africa team for providing resources and support. 
+For more details, visit the [ALX Africa website](https://www.alxafrica.com).
