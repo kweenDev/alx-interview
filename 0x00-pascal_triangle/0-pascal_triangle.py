@@ -27,7 +27,8 @@ def pascal_triangle(n):
             # Iterate through each position in the current row
             for j in range(1, i + 1):
                 level.append(C)  # Append the current value of C to the row
-                # Update C using the formula C = C * (i - j) // j for binomial coefficients
+                # Update C using the formula C = C * (i - j) // j
+                # for binomial coefficients
                 C = C * (i - j) // j
 
             # Add the completed row to the triangle
