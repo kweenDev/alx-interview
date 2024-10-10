@@ -13,26 +13,27 @@ def pascal_triangle(n):
         List[List[int]]: A list of lists representing Pascal's Triangle.
         Each list represents a row in the triangle.
     """
-    if n <= 0:
-        return []
+    # This will hold the entire Pascal's Triangle
+    res = []
 
-    # Initialize the triangle with the first row
-    triangle = [[1]]
+    if n > 0:
+        # Iterate through each row, starting from 1 up to n
+        for i in range(1, n + 1):
+            # List to hold the values for the current row
+            level = []
+            # This is the binomial coefficient starting at 1
+            C = 1
 
-    for row in range(1, n):
-        # Get the previous row
-        prev_row = triangle[row - 1]
-        # Start each new row with 1
-        new_row = [1]
+            # Iterate through each position in the current row
+            for j in range(1, i + 1):
+                level.append(C)  # Append the current value of C to the row
+                # Update C using the formula C = C * (i - j) // j for binomial coefficients
+                C = C * (i - j) // j
 
-        # Fill the middle values in the new row
-        for i in range(1, len(prev_row)):
-            new_row.append(prev_row[i - 1] + prev_row[i])
-            # End each row with 1
-            new_row.append(1)
-            triangle.append(new_row)
+            # Add the completed row to the triangle
+            res.append(level)
 
-    return triangle
+    return res  # Return the full Pascal's Triangle
 
 
 def print_triangle(triangle):
@@ -43,7 +44,7 @@ def print_triangle(triangle):
         triangle (List[List[int]]): Pascal's Triangle to print.
     """
     for row in triangle:
-        print(row)
+        print(row)  # Print each row of the triangle
 
 
 if __name__ == "__main__":
