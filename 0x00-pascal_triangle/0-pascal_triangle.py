@@ -34,19 +34,3 @@ def pascal_triangle(n):
             res.append(level)
 
     return res  # Return the full Pascal's Triangle
-
-
-def print_triangle(triangle):
-    """
-    Print Pascal's Triangle in a readable format.
-
-    Args:
-        triangle (List[List[int]]): Pascal's Triangle to print.
-    """
-    for row in triangle:
-        print(row)  # Print each row of the triangle
-
-
-if __name__ == "__main__":
-    n = 5  # Example for testing
-    print_triangle(pascal_triangle(n))
