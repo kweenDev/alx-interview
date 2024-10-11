@@ -35,7 +35,7 @@ def canUnlockAll(boxes):
 
         # Loop over all keys in the current box
         for key in boxes[current_box]:
-            # If the key corresponds to a box number within bounds and the box is still locked
+            # If the key corresponds to a box number within bounds
             if key < n and key not in unlocked_boxes:
                 # Unlock the box
                 unlocked_boxes.add(key)
