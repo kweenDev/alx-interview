@@ -14,7 +14,9 @@ Author: Refiloe Radebe
 Date: October 21, 2024
 """
 
+
 import sys
+
 
 # Initialize counters and data structures
 status_codes_dict = {
@@ -48,15 +50,18 @@ try:
             # Update total file size
             total_file_size += file_size
 
-            # Print statistics after every 10 lines
-            if line_count == 10:
-                line_count = 0
-                print('File size: ()'.format(total_file_size))
+            # Update line count
+            line_count += 1
 
-                # Print status code counts
-                for key, value in sorted(status_codes_dict.items()):
-                    if value != 0:
-                        print('{}: {}'.format(key, value))
+        # Print statistics after every 10 lines
+        if line_count == 10:
+            line_count = 0
+            print('File size: ()'.format(total_file_size))
+
+            # Print status code counts
+            for key, value in sorted(status_codes_dict.items()):
+                if value != 0:
+                    print('{}: {}'.format(key, value))
 
 except Exception as KeyboardInterrupt:
     pass
