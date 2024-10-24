@@ -32,16 +32,19 @@ status_codes_count = {
 line_count = 0
 
 
-def print_stats():
+def print_stats(status_codes, total_size):
     """
     Prints the current statistics:
     - Total file size
     - Count of status codes that have appeared
+    Args:
+        status_codes (dict): Dictionary of status code counts
+        total_size (int): Total file size accumulated so far
     """
-    print(f"File size: {total_file_size}")
-    for code in sorted(status_codes_count.keys()):
-        if status_codes_count[code] > 0:
-            print(f"{code}: {status_codes_count[code]}")
+    print("File size: {}".format(total_size))
+    for code in sorted(status_codes.keys()):
+        if status_codes[code] > 0:
+            print("{}: {}".format(code, status_codes[code]))
 
 
 def handle_interrupt(signal, frame):
@@ -49,7 +52,7 @@ def handle_interrupt(signal, frame):
     Signal handler for keyboard interruption (CTRL + C).
     This function prints the final statistics before exiting the program.
     """
-    print_stats()
+    print_stats(status_codes_count, total_file_size)
     sys.exit(0)
 
 
@@ -80,12 +83,12 @@ try:
 
         # Print statistics after every 10 lines
         if line_count % 10 == 0:
-            print_stats()
+            print_stats(status_codes_count, total_file_size)
 
 except KeyboardInterrupt:
     # Handle keyboard interrupt during processing
-    print_stats()
+    print_stats(status_codes_count, total_file_size)
     sys.exit(0)
 
 # Print final statistics if end of input is reached
-print_stats()
+print_stats(status_codes_count, total_file_size)
