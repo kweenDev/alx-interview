@@ -14,9 +14,8 @@ Author: Refiloe Radebe
 Date: October 21, 2024
 """
 
-
 import sys
-
+import signal
 
 # Initialize counters and data structures
 status_codes_dict = {
@@ -33,41 +32,67 @@ total_file_size = 0
 line_count = 0
 
 
+def print_stats():
+    """
+    Prints the current statistics:
+    - Total file size
+    - Count of status codes that have appeared
+    """
+    print(f"File size: {total_file_size}")
+    for code in sorted(status_codes_dict.keys()):
+        if status_codes_dict[code] > 0:
+            print(f"{code}: {status_codes_dict[code]}")
+
+
+def handle_interrupt(signal, frame):
+    """
+    Signal handler for keyboard interruption (CTRL + C).
+    This function prints the final statistics before exiting the program.
+    """
+    print_stats()
+    sys.exit(0)
+
+
+# Register the signal handler for CTRL + C
+signal.signal(signal.SIGINT, handle_interrupt)
+
+
 try:
     # Process log entries from standard input
     for line in sys.stdin:
-        line_count = line.split(" ")
+        try:
+            parts = line.split()
+            # Ensure that the line has the correct format
+            if len(parts) < 7:
+                continue
 
-        if len(line_count) > 4:
             # Extract status code and file size from the log line
-            status_code = line_count[-2]
-            file_size = int(line_count[-1])
-
-            # Update the count for the status code if it's valid
-            if status_code in status_codes_dict.keys():
-                status_codes_dict[status_code] += 1
+            status_code = parts[-2]
+            file_size = int(parts[-1])
 
             # Update total file size
             total_file_size += file_size
 
+            # Update the count for the status code if it's valid
+            if status_code in status_codes_dict:
+                status_codes_dict[status_code] += 1
+
             # Update line count
             line_count += 1
 
-        # Print statistics after every 10 lines
-        if line_count == 10:
-            line_count = 0
-            print('File size: ()'.format(total_file_size))
+            # Print statistics after every 10 lines
+            if line_count == 10:
+                print_stats()
+                line_count = 0
 
-            # Print status code counts
-            for key, value in sorted(status_codes_dict.items()):
-                if value != 0:
-                    print('{}: {}'.format(key, value))
+        except (IndexError, ValueError):
+            # Skip the line if it doesn't conform to the expected format
+            continue
 
-except Exception as err:
-    pass
+except KeyboardInterrupt:
+    # Handle keyboard interrupt during processing
+    print_stats()
+    sys.exit(0)
 
-finally:
-    print('File size: {}'.format(total_file_size))
-    for key, value in sorted(status_codes_dict.items()):
-        if value != 0:
-            print('{}: {}'.format(key, value))
+# Print final statistics if end of input is reached
+print_stats()
