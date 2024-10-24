@@ -17,20 +17,6 @@ Date: October 21, 2024
 import sys
 import signal
 
-# Initialize counters and data structures
-total_file_size = 0
-status_codes_count = {
-    "200": 0,
-    "301": 0,
-    "400": 0,
-    "401": 0,
-    "403": 0,
-    "404": 0,
-    "405": 0,
-    "500": 0
-}
-line_count = 0
-
 
 def print_stats(status_codes, total_size):
     """
@@ -45,6 +31,21 @@ def print_stats(status_codes, total_size):
     for code in sorted(status_codes.keys()):
         if status_codes[code] > 0:
             print("{}: {}".format(code, status_codes[code]))
+
+
+# Initialize counters and data structures
+total_file_size = 0
+status_codes_count = {
+    "200": 0,
+    "301": 0,
+    "400": 0,
+    "401": 0,
+    "403": 0,
+    "404": 0,
+    "405": 0,
+    "500": 0
+}
+line_count = 0
 
 
 def handle_interrupt(signal, frame):
