@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/usr/bin/python3
 """
 Author: Refiloe Radebe (kweenDev)
 Date: 12 November, 2024
