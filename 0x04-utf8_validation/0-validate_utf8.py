@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
 Author: Refiloe Radebe (kweenDev)
-Date: 30 October, 2024
+Date: 12 November, 2024
 Description: This script checks if a given data set is a valid UTF-8 encoding.
 The `validUTF8` function uses bitwise operations to validate each byte
 according to UTF-8 encoding rules for 1-4 byte sequences.
@@ -19,7 +19,7 @@ def validUTF8(data):
     Returns:
         bool: True if data is a valid UTF-8 encoding, False otherwise.
     """
-    # Tracks how many bytes are left in the current UTF-8 character
+    # Tracks how many continuation bytes are expected
     num_bytes = 0
 
     # Define bit masks
@@ -35,19 +35,20 @@ def validUTF8(data):
             if (byte & mask1) == 0:
                 # 1-byte character (ASCII), no additional bytes needed
                 continue
-            elif (byte & (mask1 >> 1)) == mask1:
+            elif (byte & (mask1 | mask2)) == mask1:
                 num_bytes = 1
-            elif (byte & (mask1 >> 2)) == mask1:
+            elif (byte & (mask1 | mask2 | (1 << 5))) == (mask1 | mask2):
                 num_bytes = 2
-            elif (byte & (mask1 >> 3)) == mask1:
+            elif (byte & (mask1 | mask2 | (1 << 5) | (1 << 4))) == (mask1 | mask2 | (1 << 5)):
                 num_bytes = 3
             else:
                 return False
         else:
             # Check that the byte is a valid continuation byte (10xxxxxx)
-            if not (byte & mask1 and not (byte & mask2)):
+            if not ((byte & mask1) and not (byte & mask2)):
                 return False
-        # Decrement the byte count
+        # Decrement the continuation byte count
         num_bytes -= 1
 
+    # All characters must have been completed (num_bytes should be 0)
     return num_bytes == 0
