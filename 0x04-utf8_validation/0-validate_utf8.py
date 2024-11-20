@@ -38,7 +38,8 @@ def validUTF8(data):
                 num_bytes = 1
             elif (byte & (mask1 | mask2 | (1 << 5))) == (mask1 | mask2):
                 num_bytes = 2
-            elif (byte & (mask1 | mask2 | (1 << 5) | (1 << 4))) == (mask1 | mask2 | (1 << 5)):
+            elif (byte & (mask1 | mask2 | (1 << 5) | (1 << 4))) == (
+                    mask1 | mask2 | (1 << 5)):
                 num_bytes = 3
             else:
                 return False
