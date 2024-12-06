@@ -7,13 +7,25 @@ import sys
 
 
 def printSolution(solution):
-    """Prints the solution in the required format."""
+    """Prints the solution in the required format.
+
+    Args:
+        solution (list): List where the index represents the row, and the value represents the column of a queen.
+    """
     print([[row, col] for row, col in enumerate(solution)])
 
 
 def isSafe(solution, row, col):
     """
     Checks if placing a queen at position (row, col) is safe.
+
+    Args:
+        solution (list): Current state of the board.
+        row (int): Row index for the queen.
+        col (int): Column index for the queen.
+
+    Returns:
+        bool: True if safe, False otherwise.
     """
     for i in range(row):
         # Check column and diagonal clashes
@@ -22,18 +34,24 @@ def isSafe(solution, row, col):
     return True
 
 
-def solveNQueens(n, row, solution):
+def solveNQueens(n, row, solution, solutions):
     """
     Recursively tries to place queens and backtracks if needed.
+
+    Args:
+        n (int): Size of the board (N x N).
+        row (int): Current row to place a queen.
+        solution (list): Current state of the board.
+        solutions (list): Accumulates all valid solutions.
     """
     if row == n:
-        printSolution(solution)
+        solutions.append(solution[:])
         return
 
     for col in range(n):
         if isSafe(solution, row, col):
             solution[row] = col
-            solveNQueens(n, row + 1, solution)
+            solveNQueens(n, row + 1, solution, solutions)
             # Backtrack (implicitly handled by overwriting `solution[row]`)
 
 
@@ -53,9 +71,13 @@ def main():
         print("N must be at least 4")
         sys.exit(1)
 
-    # Initialize solution array
+    # Initialize solution array and list for all solutions
     solution = [-1] * n
-    solveNQueens(n, 0, solution)
+    solutions = []
+    solveNQueens(n, 0, solution, solutions)
+
+    for solution in solutions:
+        printSolution(solution)
 
 
 if __name__ == "__main__":
