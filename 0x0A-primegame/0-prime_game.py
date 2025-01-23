@@ -1,4 +1,30 @@
 #!/usr/bin/python3
+"""
+Prime Game Module
+
+This module implements the logic for a two-player
+game based on prime numbers.
+It includes functions to:
+1. Generate a list of prime numbers up to a given
+limit using the Sieve of Eratosthenes.
+2. Simulate the prime game for multiple rounds and
+determine the overall winner.
+
+Functions:
+- sieve_of_eratosthenes(limit): Generates all prime numbers
+up to a given limit.
+- is_winner(x, nums): Determines the winner of the game based
+on the number of rounds (x) and a list of maximum numbers (nums).
+
+Game Rules:
+1. Maria and Ben take turns choosing a prime number from a set
+of numbers from 1 to n.
+2. The chosen prime and all its multiples are removed from the set.
+3. The player unable to make a move loses the round.
+4. The player who wins the most rounds out of x rounds is the overall
+winner.
+"""
+
 
 def sieve_of_eratosthenes(limit):
     """
