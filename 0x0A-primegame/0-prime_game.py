@@ -48,7 +48,22 @@ def sieve_of_eratosthenes(limit):
                 sieve[j] = False
 
     # Return a list of all prime numbers up to the limit
-    return [i for i in range(2, limit + 1) if sieve[i]]
+    return [i for i, is_prime in enumerate(sieve) if is_prime]
+
+
+def rm_multiples(ls, x):
+    """
+    Remove multiples of a given number from a list.
+
+    Parameters:
+    ls (list): A list representing the number set.
+    x (int): The number to whose multiples will be removed.
+
+    Returns:
+    None: Modifies the list in place.
+    """
+    for i in range(x * 2, len(ls), x):
+        ls[i] = 0
 
 
 def is_winner(x, nums):
@@ -64,41 +79,31 @@ def is_winner(x, nums):
     str: The name of the player who wins the most rounds ('Maria' or 'Ben').
          If there is no winner, returns None.
     """
-    # Find the maximum value of n from all rounds to limit the sieve
-    if x <= 0 or nums is None:
-        return None
-    if x != len(nums):
+    if x <= 0 or not nums:
         return None
 
-    # Initialize counters for Ben and Maria
-    ben = 0
-    maria = 0
+    # Find the maximum value in nums to limit the sieve
+    max_num = max(nums)
 
-    # Generate a list of prime numbers up to the maximum value of n
-    a = [1 for x in range(sorted(nums)[-1] + 1)]
-    a[0], a[1] = 0, 0
-    for i in range(2, len(a)):
-        rm_multiples(a, i)
+    # Generate a sieve up to the largest number in nums
+    sieve = [1] * (max_num + 1)
+    sieve[0], sieve[1] = 0, 0  # 0 and 1 are not primes
+    for i in range(2, len(sieve)):
+        if sieve[i] == 1:
+            rm_multiples(sieve, i)
 
-    # Simulate the game for each round and count the number of wins
-    for i in nums:
-        if sum(a[0:i + 1]) % 2 == 0:
-            ben += 1
+    # Count wins for Maria and Ben
+    maria_wins, ben_wins = 0, 0
+
+    for n in nums:
+        prime_count = sum(sieve[:n + 1])
+        if prime_count % 2 == 0:
+            ben_wins += 1
         else:
-            maria += 1
-    if ben > maria:
-        return "Ben"
-    if maria > ben:
+            maria_wins += 1
+
+    if maria_wins > ben_wins:
         return "Maria"
+    if ben_wins > maria_wins:
+        return "Ben"
     return None
-
-
-def rm_multiples(ls, x):
-    """
-    Remove multiples of a given number from a list.
-    """
-    for i in range(2, len(ls)):
-        try:
-            ls[i * x] = 0
-        except (ValueError, IndexError):
-            break
