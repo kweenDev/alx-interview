@@ -9,47 +9,6 @@ It includes functions to:
 """
 
 
-def sieve_of_eratosthenes(limit):
-    """
-    Generate a list of prime numbers up to `limit` using the Sieve of
-    Eratosthenes algorithm.
-
-    Parameters:
-        limit (int): The upper bound for generating prime numbers.
-
-    Returns:
-        list: A list of prime numbers up to the given limit.
-    """
-    # Create a sieve array set to True, assuming all numbers are prime
-    sieve = [True] * (limit + 1)
-    sieve[0] = sieve[1] = False  # 0 and 1 are not prime numbers
-
-    # Start marking multiples of each prime as False (not prime)
-    for i in range(2, int(limit ** 0.5) + 1):
-        if sieve[i]:
-            # Mark multiples of the current prime as non-prime
-            for j in range(i * i, limit + 1, i):
-                sieve[j] = False
-
-    # Return a list of all prime numbers up to the limit
-    return [i for i, is_prime in enumerate(sieve) if is_prime]
-
-
-def rm_multiples(ls, x):
-    """
-    Remove multiples of a given number from a list.
-
-    Parameters:
-        ls (list): A list representing the number set.
-        x (int): The number to whose multiples will be removed.
-
-    Returns:
-        None: Modifies the list in place.
-    """
-    for i in range(x * 2, len(ls), x):
-        ls[i] = 0
-
-
 def is_winner(x, nums):
     """
     Determine the winner of the prime game based on `x` rounds and `nums` list.
@@ -92,3 +51,18 @@ def is_winner(x, nums):
     if ben_wins > maria_wins:
         return "Ben"
     return None
+
+
+def rm_multiples(ls, x):
+    """
+    Remove multiples of a given number from a list.
+
+    Parameters:
+        ls (list): A list representing the number set.
+        x (int): The number to whose multiples will be removed.
+
+    Returns:
+        None: Modifies the list in place.
+    """
+    for i in range(x * 2, len(ls), x):
+        ls[i] = 0
