@@ -26,46 +26,48 @@ def isPrime(num):
     return True
 
 
-def countPrimesUpTo(n):
+def generatePrimeCounts(max_num):
     """
-    Counts the number of prime numbers up to n (inclusive).
+    Generates the cumulative count of primes up to each number.
 
     Parameters:
-        n (int): The range limit to count primes.
+        max_num (int): The range limit to count primes.
 
     Returns:
-        int: The count of prime numbers between 1 and n.
+        int: The count of prime numbers between 1 and max_num.
     """
-    count = 0
-    for i in range(2, n + 1):
-        if isPrime(i):
-            count += 1
-    return count
+    prime_counts = [0] * (max_num + 1)
+    for i in range(1, max_num + 1):
+        prime_counts[i] = prime_counts[i - 1] + (1 if isPrime(1) else 0)
+    return prime_counts
 
 
 def isWinner(x, nums):
     """
-    Determines the winner of the "Prime Game" after x rounds.
+    Determines the winner of the "Prime Game".
 
     Parameters:
         x (int): The number of rounds to be played.
-        nums (list of int): A list where each element represents the range of
-        numbers for a round.
+        nums (list of int): A list of numbers for each round.
 
     Returns:
-        str: The name of the player with the most wins ("Maria" or "Ben"), or
-        None if it's a tie.
+        str: The name of the winner ("Maria" or "Ben"), or None if it's a tie.
     """
     if not nums or x < 1:
         return None
 
+    max_num = max(nums)
+    prime_counts = generatePrimeCounts(max_num)
+
     maria_wins = 0
     ben_wins = 0
 
-    for n in nums:
-        prime_count = countPrimesUpTo(n)
-        # Maria wins if the number of primes is odd, Ben wins if it's even
-        if prime_count % 2 == 1:
+    for num in nums[:x]:
+        # Determine the number of primes in the current round
+        primes_up_to_num = prime_counts[num]
+
+        # If the number of primes is odd, Maria wins the round
+        if primes_up_to_num % 2 == 1:
             maria_wins += 1
         else:
             ben_wins += 1
@@ -76,10 +78,3 @@ def isWinner(x, nums):
         return "Ben"
     else:
         return None
-
-
-if __name__ == "__main__":
-    # Example usage
-    x = 3
-    nums = [4, 5, 6]
-    print(isWinner(x, nums))  # Expected Output: "Maria"
