@@ -4,24 +4,8 @@ Prime Game Module
 
 This module implements the logic for a two-player game based on prime numbers.
 It includes functions to:
-1. Generate a list of prime numbers up to a given limit using the Sieve of
-Eratosthenes.
-2. Simulate the prime game for multiple rounds and determine the overall
-winner.
-
-Functions:
-- sieve_of_eratosthenes(limit): Generates all prime numbers up to a given
-limit.
-- is_winner(x, nums): Determines the winner of the game based on the number of
-rounds (x) and a list of maximum numbers (nums).
-- rm_multiples(ls, x): Removes multiples of a given number from a list.
-
-Game Rules:
-1. Maria and Ben take turns choosing a prime number from a set of numbers from
-1 to n.
-2. The chosen prime and all its multiples are removed from the set.
-3. The player unable to make a move loses the round.
-4. The player who wins the most rounds out of x rounds is the overall winner.
+1. Generate a list of prime numbers using the Sieve of Eratosthenes.
+2. Simulate multiple game rounds and determine the overall winner.
 """
 
 
@@ -31,10 +15,10 @@ def sieve_of_eratosthenes(limit):
     Eratosthenes algorithm.
 
     Parameters:
-    limit (int): The upper bound for generating prime numbers.
+        limit (int): The upper bound for generating prime numbers.
 
     Returns:
-    list: A list of prime numbers up to the given limit.
+        list: A list of prime numbers up to the given limit.
     """
     # Create a sieve array set to True, assuming all numbers are prime
     sieve = [True] * (limit + 1)
@@ -56,11 +40,11 @@ def rm_multiples(ls, x):
     Remove multiples of a given number from a list.
 
     Parameters:
-    ls (list): A list representing the number set.
-    x (int): The number to whose multiples will be removed.
+        ls (list): A list representing the number set.
+        x (int): The number to whose multiples will be removed.
 
     Returns:
-    None: Modifies the list in place.
+        None: Modifies the list in place.
     """
     for i in range(x * 2, len(ls), x):
         ls[i] = 0
@@ -71,13 +55,14 @@ def is_winner(x, nums):
     Determine the winner of the prime game based on `x` rounds and `nums` list.
 
     Parameters:
-    x (int): The number of rounds played.
-    nums (list): A list of integers representing the value of `n` for
-    each round.
+        x (int): The number of rounds played.
+        nums (list): A list of integers representing the value of `n` for
+        each round.
 
     Returns:
-    str: The name of the player who wins the most rounds ('Maria' or 'Ben').
-         If there is no winner, returns None.
+        str: The name of the player who wins the most rounds
+        ('Maria' or 'Ben').
+        If there is no winner, returns None.
     """
     if x <= 0 or not nums:
         return None
