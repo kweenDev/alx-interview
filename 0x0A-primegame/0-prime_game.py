@@ -1,68 +1,85 @@
 #!/usr/bin/python3
 """
-Prime Game Module
-
-This module implements the logic for a two-player game based on prime numbers.
-It includes functions to:
-1. Generate a list of prime numbers using the Sieve of Eratosthenes.
-2. Simulate multiple game rounds and determine the overall winner.
+Prime Game Solution
+Author: Refiloe Radebe
+Date: January 24, 2025
+Description: A Python program to determine the winner of a series of rounds in
+the "Prime Game".
 """
 
 
-def is_winner(x, nums):
+def isPrime(num):
     """
-    Determine the winner of the prime game based on `x` rounds and `nums` list.
+    Determines if a number is prime.
 
     Parameters:
-        x (int): The number of rounds played.
-        nums (list): A list of integers representing the value of `n` for
-        each round.
+        num (int): The number to check for primality.
 
     Returns:
-        str: The name of the player who wins the most rounds
-        ('Maria' or 'Ben').
-        If there is no winner, returns None.
+        bool: True if the number is prime, False otherwise.
     """
-    if x <= 0 or not nums:
+    if num < 2:
+        return False
+    for i in range(2, int(num ** 0.5) + 1):
+        if num % i == 0:
+            return False
+    return True
+
+
+def countPrimesUpTo(n):
+    """
+    Counts the number of prime numbers up to n (inclusive).
+
+    Parameters:
+        n (int): The range limit to count primes.
+
+    Returns:
+        int: The count of prime numbers between 1 and n.
+    """
+    count = 0
+    for i in range(2, n + 1):
+        if isPrime(i):
+            count += 1
+    return count
+
+
+def isWinner(x, nums):
+    """
+    Determines the winner of the "Prime Game" after x rounds.
+
+    Parameters:
+        x (int): The number of rounds to be played.
+        nums (list of int): A list where each element represents the range of
+        numbers for a round.
+
+    Returns:
+        str: The name of the player with the most wins ("Maria" or "Ben"), or
+        None if it's a tie.
+    """
+    if not nums or x < 1:
         return None
 
-    # Find the maximum value in nums to limit the sieve
-    max_num = max(nums)
-
-    # Generate a sieve up to the largest number in nums
-    sieve = [1] * (max_num + 1)
-    sieve[0], sieve[1] = 0, 0  # 0 and 1 are not primes
-    for i in range(2, len(sieve)):
-        if sieve[i] == 1:
-            rm_multiples(sieve, i)
-
-    # Count wins for Maria and Ben
-    maria_wins, ben_wins = 0, 0
+    maria_wins = 0
+    ben_wins = 0
 
     for n in nums:
-        prime_count = sum(sieve[:n + 1])
-        if prime_count % 2 == 0:
-            ben_wins += 1
-        else:
+        prime_count = countPrimesUpTo(n)
+        # Maria wins if the number of primes is odd, Ben wins if it's even
+        if prime_count % 2 == 1:
             maria_wins += 1
+        else:
+            ben_wins += 1
 
     if maria_wins > ben_wins:
         return "Maria"
-    if ben_wins > maria_wins:
+    elif ben_wins > maria_wins:
         return "Ben"
-    return None
+    else:
+        return None
 
 
-def rm_multiples(ls, x):
-    """
-    Remove multiples of a given number from a list.
-
-    Parameters:
-        ls (list): A list representing the number set.
-        x (int): The number to whose multiples will be removed.
-
-    Returns:
-        None: Modifies the list in place.
-    """
-    for i in range(x * 2, len(ls), x):
-        ls[i] = 0
+if __name__ == "__main__":
+    # Example usage
+    x = 3
+    nums = [4, 5, 6]
+    print(isWinner(x, nums))  # Expected Output: "Maria"
